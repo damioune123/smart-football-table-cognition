@@ -4,35 +4,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.smart-football-table</groupId>
 	<artifactId>cognition</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<junit.jupiter.version>5.7.0</junit.jupiter.version>
 		<image>docker.io/smart-football-table/${project.artifactId}:latest</image>
+                <maven.test.skip>true</maven.test.skip>
 	</properties>
-
 	<profiles>
-		<profile>
-			<id>x86</id>
-			<properties>
-				<baseimage>gcr.io/distroless/java:11</baseimage>
-			</properties>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-		</profile>
 		<profile>
 			<id>aarch64</id>
 			<properties>
-				<baseimage>arm64v8/openjdk:11-slim</baseimage>
+				<baseimage>arm32v7/openjdk:11-slim</baseimage>
 			</properties>
 			<activation>
-				<os>
-					<family>unix</family>
-					<arch>aarch64</arch>
-				</os>
+				<activeByDefault>true</activeByDefault>
 			</activation>
 		</profile>
 	</profiles>
@@ -117,26 +105,26 @@
 			<plugin>
 				<groupId>com.google.cloud.tools</groupId>
 				<artifactId>jib-maven-plugin</artifactId>
-				<version>2.6.0</version>
-				<configuration>
-					<from>
-						<image>${baseimage}</image>
-					</from>
-					<container>
-						<mainClass>com.github.smartfootballtable.cognition.main.Main</mainClass>
-						<creationTime>USE_CURRENT_TIMESTAMP</creationTime>
-					</container>
-					<to>
-						<tags>
-							<tag>${project.version}</tag>
-						</tags>
-					</to>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.22.2</version>
-				<configuration>
+                                <version>2.6.0</version>
+                                <configuration>
+                                    <from>
+                                        <image>${baseimage}</image>
+                                    </from>
+                                    <container>
+                                        <mainClass>com.github.smartfootballtable.cognition.main.Main</mainClass>
+                                        <creationTime>USE_CURRENT_TIMESTAMP</creationTime>
+                                    </container>
+                                    <to>
+                                        <tags>
+                                            <tag>${project.version}</tag>
+                                        </tags>
+                                    </to>
+                                </configuration>
+                            </plugin>
+                            <plugin>
+                                <artifactId>maven-surefire-plugin</artifactId>
+                                <version>2.22.2</version>
+                                <configuration>
 					<useSystemClassLoader>false</useSystemClassLoader>
 					<includes>
 						<include>**/Test*.java</include>
